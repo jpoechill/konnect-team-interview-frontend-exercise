@@ -9,7 +9,7 @@
     <input type="text" :value="serviceStore.searchTerms" @input="debounce(handleDebounce($event))" class="input-search" placeholder="Search Services" aria-label="Search Services">
     
     <!-- Loading State, Empty State, List Items -->
-    <div v-if="loading" class="no-search-results">
+    <div v-if="serviceStore.loading" class="no-search-results">
       <div class="catalog">
         <div v-for="n in 8" :key="n" class="service-loading">
           <div class="text-line"></div>
@@ -55,12 +55,6 @@ import { mapState } from 'pinia'
 
 export default defineComponent({
   name: 'ServiceCatalog',
-  data () {
-    return {
-      list: [],
-      filterText: ''
-    }
-  },
   setup() {
     const serviceStore = useServiceStore()
 
