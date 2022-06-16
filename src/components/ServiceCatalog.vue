@@ -6,7 +6,7 @@
         <button>Add New Service</button>
       </div>
     </div>
-    <!-- <input type="text" :value="serviceStore.searchTerms" @input="debounce(handleDebounce($event))" class="input-search" placeholder="Search Services" aria-label="Search Services"> -->
+    <input type="text" :value="serviceStore.searchTerms" @input="debounce(handleDebounce($event))" class="input-search" placeholder="Search Services" aria-label="Search Services">
     
     <!-- Loading State, Empty State, List Items -->
     <div v-if="loading" class="no-search-results">
@@ -21,11 +21,11 @@
         </div>
       </div>
     </div>
-    <div v-else-if="!services.length" class="no-search-results">
+    <div v-else-if="!getFilteredPagination.length" class="no-search-results">
       No search results found. Maybe try different words?
     </div>
     <ul v-else class="catalog">
-      <li v-for="service in services" :key="service.id" class="service">
+      <li v-for="service in getFilteredPagination" :key="service.id" class="service">
         <div>
           <a href="#">
            {{ service.name }}
@@ -43,28 +43,43 @@
         </div>
       </li>
     </ul>
+
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import useServices from '@/composables/useServices'
+import { defineComponent } from 'vue'
+import { useServiceStore } from '../stores/services'
+import createDebounce from '@/composables/useDebounce'
+import { mapState } from 'pinia'
 
 export default defineComponent({
   name: 'ServiceCatalog',
-  setup() {
-    // Import services from the composable
-    const { services, loading } = useServices()
-
-    // Set the search string to a Vue ref
-    const searchQuery = ref('')
-
+  data () {
     return {
-      services,
-      loading,
-      searchQuery,
+      list: [],
+      filterText: ''
     }
   },
+  setup() {
+    const serviceStore = useServiceStore()
+
+    return {
+      serviceStore,
+      debounce: createDebounce(),
+    }
+  },
+  computed: {
+    ...mapState(useServiceStore, ['getFilteredPagination']),
+  },
+  methods: {
+    handleDebounce (event: any) {
+      return () => {
+        this.serviceStore.searchTerms = event.target.value 
+        this.serviceStore.currPage = 1
+      }
+    }
+  }
 })
 </script>
 
