@@ -1,5 +1,50 @@
 # Welcome
 
+## Overview
+This is my first attempt at completing the take-home challenge as described below.
+
+## Priorities
+
+**Major Build Out Priorities**
+
+1.  Implement design mock
+    1. match resources, styles, responsiveness, and a11y where abled
+1.  Implement search function
+    1. search feature should update/filter main list (live) on the client-side
+    1. search feature should debounce queries to avoid spamming api calls
+    1. search should provide and display loading, empty, and filled states where abled
+1.  Implement pagination feature
+    1. pagination should work intuitively, allowing user to navigate service results by page
+    1. pagination should update ranges, page counts as service results change
+
+
+**Other Build Out Priorities (with time available)**
+
+- navigation dropdown menus
+- modal, functions for creating a new service
+- modal, routes for displaying further service information
+- further optimize for modularization, best practices
+- component testing
+
+## Design Considerations
+
+In our group discussion, we discussed a number of different features and functionalities that could be added to the current app. With this, and seeing that time management was an important factor, it was determined that it was most important to build out first, the Functional Requirements, and then with time, other features as can be seen fit.
+
+In this first iteration, I've attempted to build out those initial requirements.
+
+
+## Assumptions
+
+-  further features outside main requirements were not neccessary, and should be included where time was abled
+
+## Trade-offs
+
+- it was most tempting to not get sidetracked into exploring and building even more additional features due the vast nature of frontend development.
+
+___
+
+
+
 ## Goal
 
 Make this Vue 3 app as close to [this mock](https://www.figma.com/file/zeaWiePnc3OCe34I4oZbzN/Service-Card-List?node-id=0%3A1) as possible while utilizing best-practices, coding standards, and great code to improve the example codebase.
