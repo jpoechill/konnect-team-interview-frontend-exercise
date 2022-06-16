@@ -3,7 +3,7 @@
     <div class="nav">
       <div>
         <router-link to="/">
-          <img src="konnect-logo.svg" class="logo" alt="Konnect Logo">
+          <img src="/konnect-logo.svg" class="logo" alt="Konnect Logo">
         </router-link>
       </div>
       <div>
