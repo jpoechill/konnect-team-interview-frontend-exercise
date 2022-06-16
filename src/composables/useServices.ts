@@ -14,7 +14,7 @@ export default function useServices(): any {
     loading.value = true
 
     // Fetch data from API
-    const result = await axios.get('/api/service_packages')
+    const result = await axios.get('http://127.0.0.1:4001/api/service_packages')
 
     // Store data in Vue ref
     services.value = result.data
