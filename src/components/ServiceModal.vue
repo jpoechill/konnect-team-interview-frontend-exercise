@@ -40,6 +40,8 @@
 
 <style lang="scss">
 .modal-backdrop {
+  height: 100vh;
+  overflow-y: hidden;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -55,6 +57,11 @@
   background: #FFFFFF;
   border-radius: 3px;
   width: 420px;
+}
+
+body.modal {
+    overflow: hidden;
+    position: fixed;
 }
 
 .header-container {

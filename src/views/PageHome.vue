@@ -1,7 +1,7 @@
 <template>
   <ServiceCatalog @show-modal="showModal" />
   <ServicePagination />
-  <ServiceModal v-show="isModalVisible" @close="closeModal" :serviceData="serviceData" />
+  <ServiceModal v-show="isModalVisible" @close="hideModal" :serviceData="serviceData" />
 </template>
 
 <script lang="ts">
@@ -36,9 +36,11 @@ export default defineComponent({
     showModal(evt: any, data: object) {
       this.serviceData = data
       this.isModalVisible = true;
+      document.body.style.overflow = 'hidden';
     },
-    closeModal() {
+    hideModal() {
       this.isModalVisible = false;
+      document.body.style.overflow = 'unset';
     },
   }
 })
