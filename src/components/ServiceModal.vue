@@ -1,11 +1,11 @@
 <template>
   <div class="modal-backdrop">
     <div class="modal service">
-      <header style="display: flex; justify-content: space-between; width: 100%;">
+      <header class="header-container">
         <a href="#">
           {{ serviceData.name }}
         </a>
-        <button type="button" @click="close" class="btn">
+        <button type="button" @click="$emit('close')" class="btn">
           <img src="/icon-close.svg" alt="Close Modal">
         </button>
       </header>
@@ -15,10 +15,16 @@
         </p>
       </section>
       <footer>
-        <div class="version-container">
+        <div v-if="serviceData.versions" class="version-container">
+
           <span class="pill">
-            {{ serviceData.versions ? serviceData.versions.length : 0 }}
+            {{ serviceData.versions.length }}
           </span> Versions
+          <div class="version-spacer">
+            <div v-for="(version, index) in serviceData.versions" :key="index" class="version-wrapper">
+              {{ version.name.toLowerCase() }}
+            </div>
+          </div>
         </div>
       </footer>
     </div>
@@ -29,11 +35,6 @@
   export default {
     name: 'Modal',
     props: ['serviceData'],
-    methods: {
-      close() {
-        this.$emit('close');
-      },
-    },
   };
 </script>
 
@@ -54,6 +55,12 @@
   background: #FFFFFF;
   border-radius: 3px;
   width: 420px;
+}
+
+.header-container {
+  display: flex; 
+  justify-content: space-between; 
+  width: 100%;
 }
 
 .service {
@@ -85,6 +92,7 @@
     border-radius: 40px;
     font-size: 13px;
     margin-right: 3px;
+    margin-bottom: 14px;
   }
 }
 
@@ -97,5 +105,24 @@
     &:hover {
         cursor: pointer;
     }
+}
+
+.version-container {
+  margin-top:10px;
+  font-size: 14px; 
+  color: #333; 
+}
+
+.version-spacer {
+  margin-top:10px
+}
+
+.version-wrapper {
+  border: 1px solid #dbdbdb;
+  padding: 4px;
+  background-color: #fafafa;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 4px;
 }
 </style>
