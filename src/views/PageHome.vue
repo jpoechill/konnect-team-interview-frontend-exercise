@@ -1,6 +1,7 @@
 <template>
-  <ServiceCatalog />
+  <ServiceCatalog @show-modal="showModal" />
   <ServicePagination />
+  <ServiceModal v-show="isModalVisible" @close="closeModal" :serviceData="serviceData" />
 </template>
 
 <script lang="ts">
@@ -9,12 +10,14 @@ import { useServiceStore } from '@/stores/services'
 import ServiceCatalog from '@/components/ServiceCatalog.vue'
 import ServicePagination from '@/components/ServicePagination.vue'
 import useServices from '@/composables/useServices'
+import ServiceModal from '@/components/ServiceModal.vue';
 
 export default defineComponent({
   name: 'PageHome',
   components: {
     ServiceCatalog,
-    ServicePagination
+    ServicePagination,
+    ServiceModal
   },
   setup() {
     const { services, loading } = useServices()
@@ -23,5 +26,20 @@ export default defineComponent({
     serviceStore.services = services
     serviceStore.loading = loading
   },
+  data() {
+    return {
+      isModalVisible: false,
+      serviceData: {}
+    };
+  },
+  methods: {
+    showModal(evt: any, data: object) {
+      this.serviceData = data
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
+  }
 })
 </script>

@@ -25,7 +25,7 @@
       No search results found. Maybe try different words?
     </div>
     <ul v-else class="catalog">
-      <li v-for="service in getFilteredPagination" :key="service.id" class="service">
+      <li @click="$emit('showModal', $event, service)" v-for="service in getFilteredPagination" :key="service.id" class="service">
         <div>
           <a href="#">
            {{ service.name }}
@@ -55,6 +55,7 @@ import { mapState } from 'pinia'
 
 export default defineComponent({
   name: 'ServiceCatalog',
+  props: ["data"],
   setup() {
     const serviceStore = useServiceStore()
 
