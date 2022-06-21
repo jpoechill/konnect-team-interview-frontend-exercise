@@ -91,6 +91,7 @@
     display: inline;
     border: 1px solid #D9E7FF;
     padding: 4px 10px;
+    color: #1456CB;
     border-radius: 40px;
     font-size: 13px;
     margin-right: 3px;
