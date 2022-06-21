@@ -1,15 +1,22 @@
 <template>
   <header>
     <div class="nav">
-      <div>
+      <div class="flex">
         <router-link to="/">
           <img src="/konnect-logo.svg" class="logo" alt="Konnect Logo">
         </router-link>
       </div>
-      <div>
+      <div class="flex">
         <img src="/icon-bell.svg" class="icon" alt="Notifications Icon">
         <img src="/icon-help.svg" class="icon" alt="Help Icon">
-        <img src="/icon-user.png" class="icon user-prof" alt="User Profile Picture">
+        <div class="dropdown">
+          <button class="dropdown-button">
+            <img src="/icon-user.png" class="icon user-prof" alt="User Profile Picture">
+          </button>
+          <div class="dropdown-content">
+            <a href="#">Logout</a>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -29,6 +36,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+@import '@/assets/dropdown.scss';
+
 html {
   margin: 0;
   padding: 0;
@@ -56,12 +65,13 @@ main {
   justify-content: space-between;
   display: flex;
   align-items: center;
-  min-height: 60px;
+  height: 60px;
 
-  div {
+  div.flex {
     display: flex;
+    height: 100%;
     align-items: center;
-    padding: 0px 25px;
+    padding: 0px 20px;
 
     .icon {
       margin-left: 20px;
