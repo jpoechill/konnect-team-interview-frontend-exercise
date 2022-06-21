@@ -55,7 +55,6 @@ import { mapState } from 'pinia'
 
 export default defineComponent({
   name: 'ServiceCatalog',
-  props: ["data"],
   setup() {
     const serviceStore = useServiceStore()
 

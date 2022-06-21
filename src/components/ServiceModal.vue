@@ -59,11 +59,6 @@
   width: 420px;
 }
 
-body.modal {
-    overflow: hidden;
-    position: fixed;
-}
-
 .header-container {
   display: flex; 
   justify-content: space-between; 
