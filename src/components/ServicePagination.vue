@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="getFilteredServices.length > itemsPerPage" class="pagination">
+    <div v-if="totalFilteredLen > itemsPerPage" class="pagination">
       <button @click="pageLeft()" label="nav-left" class="btn-pagination">
         <svg width="15" height="9" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0.345703 4.49609L4.14258 0.699219V3.8457H14.4434V5.14648H4.14258V8.29297L0.345703 4.49609Z" fill="#BFBFBF"/>
@@ -19,50 +19,49 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useServiceStore } from '../stores/services'
-import { mapState } from 'pinia'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'ServicePagination',
   setup() {
     const serviceStore = useServiceStore()
+    const { currPage, itemsPerPage } = storeToRefs(serviceStore)
+    const totalFilteredLen = computed(() => {
+      return serviceStore.getFilteredServices.length
+    })
+
+    const calcPageRange = computed((): string => {
+      let totalItems = totalFilteredLen.value;
+      let trimStart = (currPage.value - 1) * itemsPerPage.value
+      let trimEnd = trimStart + itemsPerPage.value
+
+      if (trimEnd >= totalItems) { trimEnd = totalItems }
+
+      return  + trimStart + ' – ' + --trimEnd + ' of ' + (--totalItems)
+    })
+
+    function pageLeft() {
+      if (currPage.value > 1) {
+        serviceStore.decrementPage()
+      }
+    }
+
+    function pageRight() {
+      if (currPage.value < Math.ceil(totalFilteredLen.value/itemsPerPage.value)) {
+        serviceStore.incrementPage()
+      }
+    }
 
     return {
-      serviceStore
+      itemsPerPage,
+      totalFilteredLen,
+      calcPageRange,
+      pageLeft,
+      pageRight
     }
   },
-  data () {
-    return {
-      list: []
-    }
-  },
-  computed: {
-    ...mapState(useServiceStore, ['currPage', 'itemsPerPage', 'getFilteredServices']),
-    calcPageRange (): string {
-      let totalItems = this.getFilteredServices ? this.getFilteredServices.length : 0;
-      let trimStart = (this.currPage - 1) * this.itemsPerPage
-      let trimEnd = trimStart + this.itemsPerPage
-
-      if (trimEnd >= totalItems) {
-        trimEnd = totalItems
-      }
-
-      return  + trimStart + ' – ' + --trimEnd + ' of ' + --totalItems
-    },
-  },
-  methods: {
-    pageLeft() {
-      if (this.currPage > 1) {
-        this.serviceStore.decrementPage()
-      }
-    },
-    pageRight() {
-      if (this.currPage < Math.ceil(this.getFilteredServices.length/this.itemsPerPage)) {
-        this.serviceStore.incrementPage()
-      }
-    }
-  }
 })
 </script>
 
