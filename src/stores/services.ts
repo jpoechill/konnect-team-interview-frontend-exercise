@@ -1,26 +1,21 @@
 import { defineStore } from 'pinia'
+import Service from '@/types/Service'
 
 // Example Pinia store: https://pinia.vuejs.org/
 // This code is not utilized in the take-home exercise starter template.
-interface FilteredPaginate { 
-  id: string, 
-  name: string,
-  description: string,
-  versions: object [],
-}
 
 export const useServiceStore = defineStore({
   id: 'services',
   state: () => ({
-    services: [],
+    services: [] as Service [],
     loading: false,
     itemsPerPage: 12,
     searchTerms: '',
     currPage: 1
   }),
   getters: {
-    getServices: (state) => state.services,
-    getFilteredServices(state): { id: string, name: string, description: string, versions: object [] } [] {
+    getServices: (state): Service [] => state.services,
+    getFilteredServices(state): Service [] {
       let searchTerms = state.searchTerms.split(' ').filter(x => x !== '')
 
       // filter services list by search terms, and check through matching items by obj values
@@ -30,7 +25,7 @@ export const useServiceStore = defineStore({
         })
       })
     },
-    getFilteredPagination(state): { id: string, name: string, description: string, versions: object [] } [] {
+    getFilteredPagination(state): Service [] {
       let trimStart = (state.currPage - 1) * state.itemsPerPage
       let trimEnd = trimStart + state.itemsPerPage
 
