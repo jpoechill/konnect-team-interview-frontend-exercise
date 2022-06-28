@@ -6,7 +6,7 @@
         <button>Add New Service</button>
       </div>
     </div>
-    <input type="text" :value="serviceStore.searchTerms" @input="debounce(handleDebounce($event))" class="input-search" placeholder="Search" aria-label="Search Services">
+    <input type="text" :value="serviceStore.searchTerms" @input="debounce(handleDebounce($event), 800)" class="input-search" placeholder="Search" aria-label="Search Services">
     
     <!-- Loading State, Empty State, List Items -->
     <div v-if="serviceStore.loading" class="no-search-results">
