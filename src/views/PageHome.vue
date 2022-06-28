@@ -5,12 +5,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useServiceStore } from '@/stores/services'
 import ServiceCatalog from '@/components/ServiceCatalog.vue'
 import ServicePagination from '@/components/ServicePagination.vue'
-import useServices from '@/composables/useServices'
 import ServiceModal from '@/components/ServiceModal.vue';
+import useServices from '@/composables/useServices'
 
 export default defineComponent({
   name: 'PageHome',
@@ -22,26 +22,29 @@ export default defineComponent({
   setup() {
     const { services, loading } = useServices()
     const serviceStore = useServiceStore()
+    const isModalVisible = ref<boolean>(false);
+    const serviceData = ref<object>({});
 
     serviceStore.services = services
     serviceStore.loading = loading
-  },
-  data() {
-    return {
-      isModalVisible: false,
-      serviceData: {}
-    };
-  },
-  methods: {
-    showModal(evt: any, data: object) {
-      this.serviceData = data
-      this.isModalVisible = true;
-      document.body.style.overflow = 'hidden';
-    },
-    hideModal() {
-      this.isModalVisible = false;
+
+    function hideModal() {
+      isModalVisible.value = false;
       document.body.style.overflow = 'unset';
-    },
+    }
+
+    function showModal(evt: any, data: object) {
+      serviceData.value = data
+      isModalVisible.value = true;
+      document.body.style.overflow = 'hidden';
+    }
+
+    return {
+      showModal,
+      hideModal,
+      isModalVisible,
+      serviceData,
+    }
   }
 })
 </script>
