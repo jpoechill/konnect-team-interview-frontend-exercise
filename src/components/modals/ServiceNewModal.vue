@@ -45,7 +45,7 @@
   import { ref } from 'vue'
   export default {
     name: 'ServiceAddNew',
-    setup(_, context) {
+    setup(props: any, context: any) {
       const serviceName = ref('')
       const serviceDescription = ref('')
       const serviceVersion = ref(1)
