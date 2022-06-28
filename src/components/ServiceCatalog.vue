@@ -3,13 +3,13 @@
     <div class="service-heading">
       <h1>Service Catalog</h1>
       <div>
-        <button>Add New Service</button>
+        <button class="button-service">Add New Service</button>
       </div>
     </div>
-    <input type="text" :value="serviceStore.searchTerms" @input="debounce(handleDebounce($event), 800)" class="input-search" placeholder="Search" aria-label="Search Services">
+    <input type="text" :value="searchTerms" @input="debounce(handleDebounce($event), 800)" class="input-search" placeholder="Search" aria-label="Search Services">
     
     <!-- Loading State, Empty State, List Items -->
-    <div v-if="serviceStore.loading" class="no-search-results">
+    <div v-if="loading" class="no-search-results">
       <div class="catalog">
         <div v-for="n in 8" :key="n" class="service-loading">
           <div class="text-line"></div>
@@ -43,35 +43,34 @@
         </div>
       </li>
     </ul>
-
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useServiceStore } from '../stores/services'
+import { storeToRefs } from 'pinia'
 import createDebounce from '@/composables/useDebounce'
-import { mapState } from 'pinia'
 
 export default defineComponent({
   name: 'ServiceCatalog',
   setup() {
     const serviceStore = useServiceStore()
+    const { loading, searchTerms, getFilteredPagination } = storeToRefs(serviceStore)
+
+    function handleDebounce (event: any) {
+      return () => {
+        serviceStore.searchTerms = event.target.value 
+        serviceStore.currPage = 1
+      }
+    }
 
     return {
-      serviceStore,
+      loading,
+      searchTerms,
+      getFilteredPagination,
+      handleDebounce,
       debounce: createDebounce(),
-    }
-  },
-  computed: {
-    ...mapState(useServiceStore, ['getFilteredPagination']),
-  },
-  methods: {
-    handleDebounce (event: any) {
-      return () => {
-        this.serviceStore.searchTerms = event.target.value 
-        this.serviceStore.currPage = 1
-      }
     }
   }
 })
@@ -167,7 +166,7 @@ h1 {
   justify-content: space-between;
 }
 
-button {
+.button-service {
   font-size: 16px;
   color: #FFF;
   padding: 12px;
@@ -191,7 +190,7 @@ button {
 .no-search-results {
   color: #8C8C8C;
   font-size: 14px;
-  margin: 16px auto;
+  margin: 60px auto;
   text-align: center;
 }
 </style>
