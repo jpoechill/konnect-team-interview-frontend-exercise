@@ -16,7 +16,6 @@
       </section>
       <footer>
         <div v-if="serviceData.versions" class="version-container">
-
           <span class="pill">
             {{ serviceData.versions.length }}
           </span> Versions
@@ -31,10 +30,18 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+  import { PropType } from 'vue'
+  import Service from '@/types/Service'
+  
   export default {
     name: 'Modal',
-    props: ['serviceData'],
+    props: {
+      serviceData: {
+        type: Object as PropType<Service>,
+        required: true
+      }
+    },
   };
 </script>
 
