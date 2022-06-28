@@ -1,7 +1,7 @@
 <template>
-  <ServiceCatalog @show-modal="showModal" />
+  <ServiceCatalog @show-modal-info="handleShowModalInfo" @show-modal-new="handleShowModalNew" />
   <ServicePagination />
-  <ServiceModal v-show="isModalVisible" @close="hideModals" :serviceData="serviceData" />
+  <ServiceInfoModal v-show="showInfoModal" @close="hideModals" :serviceData="serviceData" />
   <ServiceAddNew v-show="showNewServiceModal"  @close="hideModals" />
 </template>
 
@@ -10,7 +10,7 @@ import { defineComponent, ref } from 'vue'
 import { useServiceStore } from '@/stores/services'
 import ServiceCatalog from '@/components/ServiceCatalog.vue'
 import ServicePagination from '@/components/ServicePagination.vue'
-import ServiceModal from '@/components/ServiceModal.vue';
+import ServiceInfoModal from '@/components/modals/ServiceInfoModal.vue';
 import ServiceAddNew from '@/components/modals/ServiceNewModal.vue';
 import useServices from '@/composables/useServices'
 
@@ -19,13 +19,13 @@ export default defineComponent({
   components: {
     ServiceCatalog,
     ServicePagination,
-    ServiceModal,
+    ServiceInfoModal,
     ServiceAddNew
   },
   setup() {
     const { services, loading } = useServices()
     const serviceStore = useServiceStore()
-    const isModalVisible = ref<boolean>(false);
+    const showInfoModal = ref<boolean>(false);
     const showNewServiceModal = ref<boolean>(false);
     const serviceData = ref<object>({});
 
@@ -33,14 +33,15 @@ export default defineComponent({
     serviceStore.loading = loading
 
     function hideModals() {
-      isModalVisible.value = false;
-      showNewServiceModal.value = false
+      // close all modals
+      showInfoModal.value = false;
+      showNewServiceModal.value = false;
       document.body.style.overflow = 'unset';
     }
 
-    function showModal(evt: any, data: object) {
+    function handleShowModalInfo(evt: any, data: object) {
       serviceData.value = data
-      isModalVisible.value = true;
+      showInfoModal.value = true;
       document.body.style.overflow = 'hidden';
     }
 
@@ -50,11 +51,11 @@ export default defineComponent({
     }
 
     return {
-      showModal,
-      showNewServiceModal,
+      handleShowModalInfo,
       handleShowModalNew,
+      showInfoModal,
+      showNewServiceModal,
       hideModals,
-      isModalVisible,
       serviceData,
     }
   }

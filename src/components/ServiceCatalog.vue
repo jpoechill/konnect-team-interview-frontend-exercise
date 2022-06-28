@@ -3,7 +3,7 @@
     <div class="service-heading">
       <h1>Service Catalog</h1>
       <div>
-        <button class="button-service">Add New Service</button>
+        <button  @click="$emit('showModalNew')" class="button-service">Add New Service</button>
       </div>
     </div>
     <input type="text" :value="searchTerms" @input="debounce(handleDebounce($event), 800)" class="input-search" placeholder="Search" aria-label="Search Services">
@@ -25,7 +25,7 @@
       No search results found. Maybe try different words?
     </div>
     <ul v-else class="catalog">
-      <li @click="$emit('showModal', $event, service)" v-for="service in getFilteredPagination" :key="service.id" class="service">
+      <li @click="$emit('showModalInfo', $event, service)" v-for="service in getFilteredPagination" :key="service.id" class="service">
         <div>
           <a href="#">
            {{ service.name }}
